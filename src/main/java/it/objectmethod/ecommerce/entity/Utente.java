@@ -1,0 +1,53 @@
+package it.objectmethod.ecommerce.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
+@Table(name = "utente")
+public class Utente {
+
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@Column(name = "id_utente")
+	private Long idUtente;
+	
+	@JsonIgnore
+	@Column(name = "nome_utente")
+	private String nomeUtente;
+
+	@JsonIgnore
+	@Column(name = "password")
+	private String password;
+
+	public Long getIdUtente() {
+		return idUtente;
+	}
+
+	public void setIdUtente(Long idUtente) {
+		this.idUtente = idUtente;
+	}
+
+	public String getNomeUtente() {
+		return nomeUtente;
+	}
+
+	public void setNomeUtente(String nomeUtente) {
+		this.nomeUtente = nomeUtente;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+}
