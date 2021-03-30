@@ -23,7 +23,6 @@ import it.objectmethod.ecommerce.repository.UtenteRepository;
 @RestController
 @RequestMapping("/api/carrello")
 public class CarrelloController {
-
 	@Autowired
 	private CarrelloRepository carrelloRepo;
 
@@ -36,80 +35,67 @@ public class CarrelloController {
 	@GetMapping("/aggiungi-articolo")
 	public ResponseEntity<String> aggiungiArticolo(@RequestParam("id-utente") Long idUtente,
 			@RequestParam("quantita") Integer quantita, @RequestParam("id-articolo") Long idArticolo) {
-
 		Optional<Articolo> optArticolo = articoloRepo.findById(idArticolo);
+		Articolo articolo = optArticolo.get();
 		ResponseEntity<String> response = null;
-		Utente utente = utenteRepo.findById(idUtente).get();
 
 		if (optArticolo.isPresent()) {
-			Articolo articolo = optArticolo.get();
-			Carrello carrello = carrelloRepo.findByUtente(utente);
-			List<CarrelloDettaglio> carDett;
-			CarrelloDettaglio dettaglio;
+			Utente utente = utenteRepo.findById(idUtente).get();
+			Carrello carrello = carrelloRepo.findByIdUtente(idUtente);
+			boolean trovato = false;
 
-			/////////// CARRELLO SI ////////////
-
-			if (carrello != null) {
-				carDett = carrello.getCarrelloDettaglio();
-
-				for (CarrelloDettaglio dett : carDett) {
-					//// MODIFICA QUANTITA ////
-					if (idArticolo == (dett.getArticolo().getIdArticolo())) {
-
-						int sommaQuantita = dett.getQuantita() + quantita;
-						if (dett.getArticolo().getDisponibilita() > sommaQuantita) {
-							dett.setQuantita(sommaQuantita);
-						} else {
-							response = new ResponseEntity<String>("Quantita non disponibile", HttpStatus.BAD_REQUEST);
-						}
-						carrello = carrelloRepo.save(carrello);
-
-					//// AGGIUNTA ARTICOLO ////
-					} else {
-
-						if (articolo.getDisponibilita() > quantita) {
-							dettaglio = new CarrelloDettaglio();
-							dettaglio.setArticolo(articolo);
-							dettaglio.setCarrello(carrello);
-							dettaglio.setQuantita(quantita);
-							carDett.add(dettaglio);
-							carrello.setCarrelloDettaglio(carDett);
-							carrello = carrelloRepo.save(carrello);
-
-						} else {
-							response = new ResponseEntity<String>("Quantita non disponibile", HttpStatus.BAD_REQUEST);
-						}
-
-					}
-				}
-
-				//////////// CARRELLO NO ////////////
-
-			} else {
+			// se il carrello non esiste
+			if (carrello == null) {
 				carrello = new Carrello();
 				carrello.setUtente(utente);
-				carDett = new ArrayList<CarrelloDettaglio>();
-				CarrelloDettaglio carDettaglio = new CarrelloDettaglio();
-
-				if (articolo.getDisponibilita() > quantita) {
-					carDettaglio.setArticolo(articolo);
-					carDettaglio.setQuantita(quantita);
-					carDettaglio.setCarrello(carrello);
-					carDett.add(carDettaglio);
-					carrello.setCarrelloDettaglio(carDett);
-
-				} else {
-					response = new ResponseEntity<String>("Quantita non disponibile", HttpStatus.BAD_REQUEST);
-				}
 				carrello = carrelloRepo.save(carrello);
+				response = new ResponseEntity<String>("carrello creato", HttpStatus.OK);
+			}
+
+			List<CarrelloDettaglio> dettagli;
+			// se non ci sono dettagli
+			if (carrello.getCarrelloDettaglio() == null) {
+				dettagli = new ArrayList<CarrelloDettaglio>();
+
+				// se ci sono dettagli
+			} else {
+				dettagli = carrello.getCarrelloDettaglio();
+			}
+			for (CarrelloDettaglio det : dettagli) {
+				if (articolo.getCodiceArticolo().equals(det.getArticolo().getCodiceArticolo())) {
+					int sommaQuantita = det.getQuantita() + quantita;
+					if (sommaQuantita <= det.getArticolo().getDisponibilita()) {
+						det.setQuantita(sommaQuantita);
+						carrello = carrelloRepo.save(carrello);
+						response = new ResponseEntity<String>("quantita aggiornata", HttpStatus.OK);
+						trovato = true;
+					} else {
+						response = new ResponseEntity<String>("quantita non disponibile", HttpStatus.BAD_REQUEST);
+					}
+
+				}
+
+			}
+			if (!trovato) {
+				if (quantita <= articolo.getDisponibilita()) {
+					CarrelloDettaglio dettaglio = new CarrelloDettaglio();
+					dettaglio.setArticolo(articolo);
+					dettaglio.setQuantita(quantita);
+					dettagli.add(dettaglio);
+
+					carrello.setCarrelloDettaglio(dettagli);
+					carrello = carrelloRepo.save(carrello);
+					response = new ResponseEntity<String>("dettaglio aggiunto", HttpStatus.OK);
+				} else {
+					response = new ResponseEntity<String>("quantita non disponibile", HttpStatus.BAD_REQUEST);
+				}
 			}
 
 		} else {
-			response = new ResponseEntity<String>("Articolo non presente", HttpStatus.BAD_REQUEST);
-
+			response = new ResponseEntity<String>("articolo non presente", HttpStatus.BAD_REQUEST);
 		}
-		return response;
 
+		return response;
 	}
 
 }
