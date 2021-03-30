@@ -55,4 +55,5 @@ public class Carrello {
 		this.carrelloDettaglio = carrelloDettaglio;
 	}
 
+
 }

@@ -22,11 +22,11 @@ public class CarrelloDettaglio {
 
 	@OneToOne
 	@JoinColumn(name = "id_articolo")
-	private Articolo idArticolo;
+	private Articolo Articolo;
 
 	@ManyToOne
 	@JoinColumn(name = "id_carrello")
-	private Carrello idCarrello;
+	private Carrello Carrello;
 
 	public Long getIdCarrelloDettaglio() {
 		return idCarrelloDettaglio;
@@ -44,20 +44,20 @@ public class CarrelloDettaglio {
 		this.quantita = quantita;
 	}
 
-	public Articolo getIdArticolo() {
-		return idArticolo;
+	public Articolo getArticolo() {
+		return Articolo;
 	}
 
-	public void setIdArticolo(Articolo idArticolo) {
-		this.idArticolo = idArticolo;
+	public void setArticolo(Articolo articolo) {
+		Articolo = articolo;
 	}
 
-	public Carrello getIdCarrello() {
-		return idCarrello;
+	public Carrello getCarrello() {
+		return Carrello;
 	}
 
-	public void setIdCarrello(Carrello idCarrello) {
-		this.idCarrello = idCarrello;
+	public void setCarrello(Carrello carrello) {
+		Carrello = carrello;
 	}
 
 }

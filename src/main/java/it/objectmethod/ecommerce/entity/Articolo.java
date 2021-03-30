@@ -27,12 +27,12 @@ public class Articolo {
 	@Column(name = "prezzo_unitario")
 	private Integer prezzo;
 
-	public Long getId() {
+	public Long getIdArticolo() {
 		return idArticolo;
 	}
 
-	public void setId(Long id) {
-		this.idArticolo = id;
+	public void setIdArticolo(Long idArticolo) {
+		this.idArticolo = idArticolo;
 	}
 
 	public String getCodiceArticolo() {

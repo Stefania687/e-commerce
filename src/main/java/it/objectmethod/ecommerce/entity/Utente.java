@@ -17,7 +17,7 @@ public class Utente {
 	@Id
 	@Column(name = "id_utente")
 	private Long idUtente;
-	
+
 	@JsonIgnore
 	@Column(name = "nome_utente")
 	private String nomeUtente;
