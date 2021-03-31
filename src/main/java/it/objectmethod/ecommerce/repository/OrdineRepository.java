@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import it.objectmethod.ecommerce.entity.Ordine;
 
 @Repository
-public interface OrdineRepository extends JpaRepository<Ordine, Long>{
-	public Ordine findByIdUtente(Long idUtente);
+public interface OrdineRepository extends JpaRepository<Ordine, Long> {
 
 }

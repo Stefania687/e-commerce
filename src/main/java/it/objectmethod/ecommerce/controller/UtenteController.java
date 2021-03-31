@@ -20,7 +20,8 @@ public class UtenteController {
 	private UtenteRepository utenteRepo;
 
 	@PostMapping("/login")
-	ResponseEntity<String> utente(@RequestParam("nomeUtente") String nomeUtente, @RequestParam("password") String password) {
+	ResponseEntity<String> utente(@RequestParam("nome-utente") String nomeUtente,
+			@RequestParam("password") String password) {
 
 		List<String> utenti = utenteRepo.findByNomeUtenteAndPassword(nomeUtente, password);
 		ResponseEntity<String> response;
@@ -28,11 +29,11 @@ public class UtenteController {
 		if ((nomeUtente.isEmpty()) || (password.isEmpty())) {
 			response = new ResponseEntity<String>("credenziali non inserite!", HttpStatus.BAD_REQUEST);
 
-		} else if (utenti.isEmpty()) {
+		} else if (utenti == null) {
 			response = new ResponseEntity<String>("credenziali errate!", HttpStatus.BAD_REQUEST);
 
 		} else {
-		response = new ResponseEntity<String>(nomeUtente, HttpStatus.OK);
+			response = new ResponseEntity<String>(nomeUtente, HttpStatus.OK);
 		}
 		return response;
 	}

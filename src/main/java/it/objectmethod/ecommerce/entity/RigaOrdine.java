@@ -7,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,12 +19,12 @@ public class RigaOrdine {
 	private Long idRigaOrdine;
 
 	@ManyToOne
-	@JoinColumn(name = "ordine")
-	private Ordine idOrdine;
+	@JoinColumn(name = "id_ordine")
+	private Ordine ordine;
 
-	@OneToOne
-	@JoinColumn(name = "articolo")
-	private Articolo idArticolo;
+	@ManyToOne
+	@JoinColumn(name = "id_articolo")
+	private Articolo articolo;
 
 	@Column(name = "quantita")
 	private Integer quantita;
@@ -38,20 +37,20 @@ public class RigaOrdine {
 		this.idRigaOrdine = idRigaOrdine;
 	}
 
-	public Ordine getIdOrdine() {
-		return idOrdine;
+	public Ordine getOrdine() {
+		return ordine;
 	}
 
-	public void setIdOrdine(Ordine idOrdine) {
-		this.idOrdine = idOrdine;
+	public void setOrdine(Ordine ordine) {
+		this.ordine = ordine;
 	}
 
-	public Articolo getIdArticolo() {
-		return idArticolo;
+	public Articolo getArticolo() {
+		return articolo;
 	}
 
-	public void setIdArticolo(Articolo idArticolo) {
-		this.idArticolo = idArticolo;
+	public void setArticolo(Articolo articolo) {
+		this.articolo = articolo;
 	}
 
 	public Integer getQuantita() {

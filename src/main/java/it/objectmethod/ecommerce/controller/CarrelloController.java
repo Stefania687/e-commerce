@@ -41,18 +41,20 @@ public class CarrelloController {
 
 		if (optArticolo.isPresent()) {
 			Utente utente = utenteRepo.findById(idUtente).get();
-			Carrello carrello = carrelloRepo.findByIdUtente(idUtente);
+			Carrello carrello = carrelloRepo.findByIdUtente(utente.getIdUtente());
 			boolean trovato = false;
 
 			// se il carrello non esiste
 			if (carrello == null) {
 				carrello = new Carrello();
+				utente = utenteRepo.findById(utente.getIdUtente()).get();
 				carrello.setUtente(utente);
 				carrello = carrelloRepo.save(carrello);
 				response = new ResponseEntity<String>("carrello creato", HttpStatus.OK);
 			}
 
 			List<CarrelloDettaglio> dettagli;
+
 			// se non ci sono dettagli
 			if (carrello.getCarrelloDettaglio() == null) {
 				dettagli = new ArrayList<CarrelloDettaglio>();
@@ -62,20 +64,23 @@ public class CarrelloController {
 				dettagli = carrello.getCarrelloDettaglio();
 			}
 			for (CarrelloDettaglio det : dettagli) {
-				if (articolo.getCodiceArticolo().equals(det.getArticolo().getCodiceArticolo())) {
+				if (articolo.getIdArticolo().equals(det.getArticolo().getIdArticolo())) {
 					int sommaQuantita = det.getQuantita() + quantita;
 					if (sommaQuantita <= det.getArticolo().getDisponibilita()) {
 						det.setQuantita(sommaQuantita);
-						carrello = carrelloRepo.save(carrello);
 						response = new ResponseEntity<String>("quantita aggiornata", HttpStatus.OK);
 						trovato = true;
 					} else {
+
 						response = new ResponseEntity<String>("quantita non disponibile", HttpStatus.BAD_REQUEST);
 					}
 
 				}
+				
 
 			}
+			carrello = carrelloRepo.save(carrello);
+
 			if (!trovato) {
 				if (quantita <= articolo.getDisponibilita()) {
 					CarrelloDettaglio dettaglio = new CarrelloDettaglio();

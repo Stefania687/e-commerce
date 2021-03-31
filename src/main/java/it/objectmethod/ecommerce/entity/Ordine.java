@@ -1,9 +1,12 @@
 package it.objectmethod.ecommerce.entity;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -24,14 +27,14 @@ public class Ordine {
 	private String numeroOrdine;
 
 	@Column(name = "data_ordine")
-	private String dataOrdine;
+	private LocalDate dataOrdine;
 
 	@ManyToOne
-	@JoinColumn(name = "utente")
-	private Utente idUtente;
+	@JoinColumn(name = "id_utente")
+	private Utente utente;
 
-	@OneToMany
-	@JoinColumn(name = "riga_ordine")
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_ordine")
 	private List<RigaOrdine> rigaOrdine;
 
 	public Long getIdOrdine() {
@@ -50,20 +53,22 @@ public class Ordine {
 		this.numeroOrdine = numeroOrdine;
 	}
 
-	public String getDataOrdine() {
+	public LocalDate getDataOrdine() {
 		return dataOrdine;
 	}
 
-	public void setDataOrdine(String dataOrdine) {
+	public void setDataOrdine(LocalDate dataOrdine) {
 		this.dataOrdine = dataOrdine;
 	}
 
-	public Utente getIdUtente() {
-		return idUtente;
+	
+
+	public Utente getUtente() {
+		return utente;
 	}
 
-	public void setIdUtente(Utente idUtente) {
-		this.idUtente = idUtente;
+	public void setUtente(Utente utente) {
+		this.utente = utente;
 	}
 
 	public List<RigaOrdine> getRigaOrdine() {
