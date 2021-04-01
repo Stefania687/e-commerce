@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -19,8 +18,8 @@ public class CarrelloDettaglio {
 	private Long idCarrelloDettaglio;
 
 	private Integer quantita;
-
-	@OneToOne
+	
+	@ManyToOne
 	@JoinColumn(name = "id_articolo")
 	private Articolo Articolo;
 

@@ -24,8 +24,7 @@ import it.objectmethod.ecommerce.repository.OrdineRepository;
 @RestController
 @RequestMapping("/api/ordine")
 public class OrdineController {
-// Realizzare un servizio di inserimento ordine per salvare i dati 
-// contenuti nel carrello nelle tabelle ORDINE e RIGA ORDINE.
+
 	@Autowired
 	private CarrelloRepository carrelloRepo;
 
@@ -36,15 +35,16 @@ public class OrdineController {
 	private OrdineRepository ordineRepo;
 
 	@GetMapping("/aggiungi-ordine")
-	public ResponseEntity<String> aggiungiOrdine(@RequestParam("id-utente") Long idUtente) {
-		ResponseEntity<String> response = null;
+	public ResponseEntity<Ordine> aggiungiOrdine(@RequestParam("id-utente") Long idUtente) {
+
+		ResponseEntity<Ordine> response = null;
 		Boolean errore = false;
-		
 		Carrello carrello = carrelloRepo.findByIdUtente(idUtente);
 
 		if (carrello != null) {
 			Ordine ordine = new Ordine();
 			List<RigaOrdine> righe = new ArrayList<RigaOrdine>();
+
 			for (CarrelloDettaglio dett : carrello.getCarrelloDettaglio()) {
 				Articolo art = dett.getArticolo();
 				int newDisponibilita = art.getDisponibilita() - dett.getQuantita();
@@ -56,13 +56,8 @@ public class OrdineController {
 					riga.setQuantita(dett.getQuantita());
 					righe.add(riga);
 					articoloRepo.save(art);
-
-				} else {
-					errore = true;
-					response = new ResponseEntity<String>("La quantita richiesta non è disponibile",
-							HttpStatus.BAD_REQUEST);
+					break;
 				}
-
 			}
 			if (!errore) {
 				LocalDate data = LocalDate.now();
@@ -70,14 +65,14 @@ public class OrdineController {
 				ordine.setUtente(carrello.getUtente());
 				ordine.setRigaOrdine(righe);
 				ordine.setNumeroOrdine("A000" + carrello.getIdCarrello());
-
-				ordine = ordineRepo.save(ordine);
-				carrelloRepo.deleteById(carrello.getIdCarrello());
-				response = new ResponseEntity<String>("ordine aggiunto", HttpStatus.OK);
 			}
 
+			ordine = ordineRepo.save(ordine);
+			carrelloRepo.deleteById(carrello.getIdCarrello());
+			response = new ResponseEntity<Ordine>(ordine, HttpStatus.OK);
+
 		} else {
-			response = new ResponseEntity<String>("carrello non esistente", HttpStatus.BAD_REQUEST);
+			response = new ResponseEntity<Ordine>(HttpStatus.BAD_REQUEST);
 		}
 
 		return response;

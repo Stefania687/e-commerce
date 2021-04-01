@@ -19,7 +19,7 @@ public class ArticoloController {
 
 	@GetMapping("/lista")
 	public List<Articolo> findArticoli() {
-		List<Articolo> articoli = articoloRepo.findArticolo();
+		List<Articolo> articoli = articoloRepo.findAll();
 		return articoli;
 	}
 	
