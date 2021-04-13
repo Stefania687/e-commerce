@@ -4,35 +4,42 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.objectmethod.ecommerce.entity.Articolo;
-import it.objectmethod.ecommerce.repository.ArticoloRepository;
+import it.objectmethod.ecommerce.services.ArticoloService;
+import it.objectmethod.ecommerce.services.dto.ArticoloDTO;
 
 @RestController
 @RequestMapping("/api/articoli")
 public class ArticoloController {
+
 	@Autowired
-	private ArticoloRepository articoloRepo;
+	private ArticoloService articoloServ;
 
 	@GetMapping("/lista")
-	public List<Articolo> findArticoli() {
-		List<Articolo> articoli = articoloRepo.findAll();
-		return articoli;
+	public List<ArticoloDTO> findAll() {
+		List<ArticoloDTO> articoliDto = articoloServ.findAll();
+		return articoliDto;
 	}
-	
+
 	@GetMapping("/lista/nome")
-	public List<Articolo> findArticoloByName(@RequestParam("nomeArticolo") String nomeArticolo) {
-		List<Articolo> articolo = articoloRepo.findByNomeArticolo(nomeArticolo);
-		return articolo;
+	public List<ArticoloDTO> findArticoloByName(@RequestBody ArticoloDTO art) {
+		List<ArticoloDTO> articoloDto = articoloServ.findByNomeArticolo(art);
+		return articoloDto;
+	}
+
+	@GetMapping("/lista/codice")
+	public List<ArticoloDTO> findArticoloByCodiceArticolo(@RequestBody ArticoloDTO art) {
+		List<ArticoloDTO> articoloDto = articoloServ.findByCodiceArticolo(art);
+		return articoloDto;
 	}
 	
-	@GetMapping("/lista/codice")
-	public List<Articolo> findArticoloByCode(@RequestParam("codiceArticolo") String codiceArticolo) {
-		List<Articolo> articolo = articoloRepo.findByCodiceArticolo(codiceArticolo);
-		return articolo;
+	@GetMapping("/cerca")
+	public List<ArticoloDTO> findByNomeOCodiceArticolo(@RequestBody ArticoloDTO art){
+		List<ArticoloDTO> articoloDto = articoloServ.findByNameOrCode(art);		
+		return articoloDto;
 	}
 
 }

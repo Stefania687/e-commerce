@@ -8,8 +8,6 @@ import it.objectmethod.ecommerce.entity.Utente;
 @Repository
 public interface UtenteRepository extends JpaRepository<Utente, Long> {
 
-	// @Query(value = "select u from Utente u where u.nomeUtente = ?1 and password =
-	// ?2")
 	public Utente findByNomeUtenteAndPassword(String nomeUtente, String password);
 
 }

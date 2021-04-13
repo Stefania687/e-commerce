@@ -4,37 +4,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.objectmethod.ecommerce.entity.Utente;
-import it.objectmethod.ecommerce.repository.UtenteRepository;
+import it.objectmethod.ecommerce.services.UtenteService;
+import it.objectmethod.ecommerce.services.dto.UtenteDTO;
+import it.objectmethod.ecommerce.services.dto.UtenteRequestDTO;
 
 @RestController
 @RequestMapping("/api/utente")
 public class UtenteController {
 
 	@Autowired
-	private UtenteRepository utenteRepo;
+	private UtenteService utenteServ;
 
 	@PostMapping("/login")
-	ResponseEntity<Utente> utente(@RequestParam("nome-utente") String nomeUtente,
-			@RequestParam("password") String password) {
+	public ResponseEntity<UtenteDTO> findByNomeUtenteAndPassword(@RequestBody() UtenteRequestDTO ute) {
 
-		Utente utente = utenteRepo.findByNomeUtenteAndPassword(nomeUtente, password);
-		ResponseEntity<Utente> response;
+		ResponseEntity<UtenteDTO> response = null;
 
-		if ((nomeUtente.isEmpty()) || (password.isEmpty())) {
-			response = new ResponseEntity<Utente>(HttpStatus.BAD_REQUEST);
+		UtenteDTO utente = utenteServ.findByNomeUtenteAndPassword(ute);
 
+		if (utente != null) {
+			response = new ResponseEntity<UtenteDTO>(utente, HttpStatus.ACCEPTED);
 		} else if (utente == null) {
-			response = new ResponseEntity<Utente>(HttpStatus.BAD_REQUEST);
-
-		} else {
-			response = new ResponseEntity<Utente>(utente, HttpStatus.OK);
+			response = new ResponseEntity<UtenteDTO>(HttpStatus.BAD_REQUEST);
 		}
+
 		return response;
+
 	}
 
 }
