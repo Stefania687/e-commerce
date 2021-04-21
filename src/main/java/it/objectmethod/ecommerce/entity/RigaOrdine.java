@@ -37,14 +37,6 @@ public class RigaOrdine {
 		this.idRigaOrdine = idRigaOrdine;
 	}
 
-	public Ordine getOrdine() {
-		return ordine;
-	}
-
-	public void setOrdine(Ordine ordine) {
-		this.ordine = ordine;
-	}
-
 	public Articolo getArticolo() {
 		return articolo;
 	}
@@ -59,6 +51,14 @@ public class RigaOrdine {
 
 	public void setQuantita(Integer quantita) {
 		this.quantita = quantita;
+	}
+
+	public Ordine getOrdine() {
+		return ordine;
+	}
+
+	public void setOrdine(Ordine ordine) {
+		this.ordine = ordine;
 	}
 
 }

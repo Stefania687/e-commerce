@@ -47,20 +47,19 @@ public class CarrelloService {
 			articolo = optArticolo.get();
 			Optional<Utente> optUtente = utenteRepo.findById(articoloCarrDto.getIdUtente());
 			Utente utente = optUtente.get();
-			utente = utenteRepo.findById(utente.getIdUtente()).get();
 			Carrello carrello = carrelloRepo.findByIdUtente(utente.getIdUtente());
-
+			
 			if (carrello == null) {
 				carrello = new Carrello();
 				carrello.setUtente(utente);
 				carrello = carrelloRepo.save(carrello);
 			}
-			List<CarrelloDettaglio> dettagli = null;
+			List<CarrelloDettaglio> dettagli = carrello.getCarrelloDettaglio();
+			
 			if (carrello.getCarrelloDettaglio() == null) {
 				dettagli = new ArrayList<CarrelloDettaglio>();
-			} else {
-				dettagli = carrello.getCarrelloDettaglio();
 			}
+			
 			boolean trovato = false;
 			for (CarrelloDettaglio det : dettagli) {
 				if (articolo.getIdArticolo().equals(det.getArticolo().getIdArticolo())) {

@@ -19,37 +19,11 @@ public class ArticoloService {
 	@Autowired
 	private ArticoloRepository articoloRepo;
 
-	public List<ArticoloDTO> findAll() {
-		List<ArticoloDTO> articoloDtoList = null;
-		List<Articolo> articoloList = articoloRepo.findAll();
-		articoloDtoList = articoloMap.toDto(articoloList);
+	public List<ArticoloDTO> findByNameOrCode(String nomeArticolo, String codiceArticolo) {
 
-		return articoloDtoList;
-	}
-
-	public List<ArticoloDTO> findByNomeArticolo(ArticoloDTO articoloDto) {
-		Articolo articolo = articoloMap.toEntity(articoloDto);
-		List<Articolo> articoli = articoloRepo.findByNomeArticolo(articolo.getNomeArticolo());
-		List<ArticoloDTO> articoliDto = articoloMap.toDto(articoli);
-
-		return articoliDto;
-	}
-
-	public List<ArticoloDTO> findByCodiceArticolo(ArticoloDTO articoloDto) {
-		Articolo articolo = articoloMap.toEntity(articoloDto);
-		List<Articolo> articoli = articoloRepo.findByCodiceArticolo(articolo.getCodiceArticolo());
-		List<ArticoloDTO> articoliDto = articoloMap.toDto(articoli);
-
-		return articoliDto;
-	}
-
-	public List<ArticoloDTO> findByNameOrCode(ArticoloDTO articoloDto) {
-
-		Articolo articolo = articoloMap.toEntity(articoloDto);
-		List<Articolo> articoli = articoloRepo.findByNameOrCode(articolo.getNomeArticolo(),
-				articolo.getCodiceArticolo());
-		List<ArticoloDTO> articoliDto = articoloMap.toDto(articoli);
-
+		List<Articolo> articoli = articoloRepo.findByNameOrCode(nomeArticolo, codiceArticolo);
+		List<ArticoloDTO> articoliDto = articoloMap.toDto(articoli);		
+		
 		return articoliDto;
 	}
 

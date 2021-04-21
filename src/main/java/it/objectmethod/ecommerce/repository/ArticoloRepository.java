@@ -11,10 +11,6 @@ import it.objectmethod.ecommerce.entity.Articolo;
 @Repository
 public interface ArticoloRepository extends JpaRepository<Articolo, Long> {
 
-	public List<Articolo> findByNomeArticolo(String nomeArticolo);
-
-	public List<Articolo> findByCodiceArticolo(String codiceArticolo);
-
 	@Query(value = "select a from Articolo a where ('' = ?1 or a.nomeArticolo = ?1) and ('' = ?2 or a.codiceArticolo = ?2)")
 	public List<Articolo> findByNameOrCode(String nomeArticolo, String codiceArticolo);
 

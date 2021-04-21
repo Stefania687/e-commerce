@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service;
 import it.objectmethod.ecommerce.entity.Utente;
 import it.objectmethod.ecommerce.repository.UtenteRepository;
 import it.objectmethod.ecommerce.services.dto.UtenteDTO;
-import it.objectmethod.ecommerce.services.dto.UtenteRequestDTO;
 import it.objectmethod.ecommerce.services.mapper.UtenteMapper;
-import it.objectmethod.ecommerce.services.mapper.UtenteRequestMapper;
 
 @Service
 public class UtenteService {
@@ -19,17 +17,10 @@ public class UtenteService {
 	@Autowired
 	private UtenteMapper utenteMap;
 
-	@Autowired
-	private UtenteRequestMapper utenteReqMap;
+	public UtenteDTO findByNomeUtenteAndPassword(String nomeUtente, String password) {
 
-	public UtenteDTO findByNomeUtenteAndPassword(UtenteRequestDTO ute) {
-
-		Utente utente = utenteReqMap.toEntity(ute);
-		UtenteDTO utenteDto = null;
-		String nome = utente.getNomeUtente();
-		String password = utente.getPassword();
-
-		utente = utenteRepo.findByNomeUtenteAndPassword(nome, password);
+		Utente utente = utenteRepo.findByNomeUtenteAndPassword(nomeUtente, password);
+		UtenteDTO utenteDto = new UtenteDTO();
 
 		if (utente != null) {
 			utenteDto = utenteMap.toDto(utente);
