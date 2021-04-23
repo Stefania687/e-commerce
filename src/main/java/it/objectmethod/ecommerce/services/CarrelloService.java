@@ -19,6 +19,8 @@ import it.objectmethod.ecommerce.services.dto.CarrelloDTO;
 import it.objectmethod.ecommerce.services.mapper.ArticoloCarrelloMapper;
 import it.objectmethod.ecommerce.services.mapper.CarrelloMapper;
 
+
+
 @Service
 public class CarrelloService {
 	@Autowired
@@ -40,9 +42,9 @@ public class CarrelloService {
 
 		CarrelloDTO carrelloDto = null;
 		Articolo articolo = artCarrMap.toEntity(articoloCarrDto);
-		Optional<Articolo> optArticolo = articoloRepo.findById(articoloCarrDto.getIdArticolo());
+		Optional<Articolo> optArticolo = articoloRepo.findById(articolo.getIdArticolo());
 		int quantita = articoloCarrDto.getQuantita();
-
+		
 		if (optArticolo.isPresent()) {
 			articolo = optArticolo.get();
 			Optional<Utente> optUtente = utenteRepo.findById(articoloCarrDto.getIdUtente());

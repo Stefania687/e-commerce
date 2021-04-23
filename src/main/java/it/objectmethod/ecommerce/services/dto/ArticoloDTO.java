@@ -3,8 +3,8 @@ package it.objectmethod.ecommerce.services.dto;
 public class ArticoloDTO {
 
 	private Long id;
-	private String nomeArticolo;
 	private String codiceArticolo;
+	private String nomeArticolo;
 	private Integer disponibilita;
 	private Integer prezzo;
 

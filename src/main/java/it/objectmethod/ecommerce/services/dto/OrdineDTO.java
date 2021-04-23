@@ -6,7 +6,7 @@ public class OrdineDTO {
 
 	private Long id;
 	private Long idUtente;
-	private String nomeUtente;
+	// private String nomeUtente;
 	private LocalDate dataOrdine;
 
 	public Long getId() {
@@ -23,14 +23,6 @@ public class OrdineDTO {
 
 	public void setIdUtente(Long idUtente) {
 		this.idUtente = idUtente;
-	}
-
-	public String getNomeUtente() {
-		return nomeUtente;
-	}
-
-	public void setNomeUtente(String nomeUtente) {
-		this.nomeUtente = nomeUtente;
 	}
 
 	public LocalDate getDataOrdine() {

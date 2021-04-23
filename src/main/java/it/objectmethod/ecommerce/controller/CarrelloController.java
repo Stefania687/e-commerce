@@ -12,6 +12,7 @@ import it.objectmethod.ecommerce.services.CarrelloService;
 import it.objectmethod.ecommerce.services.dto.ArticoloCarrelloDTO;
 import it.objectmethod.ecommerce.services.dto.CarrelloDTO;
 
+
 @RestController
 @RequestMapping("/api/carrello")
 public class CarrelloController {
@@ -24,6 +25,7 @@ public class CarrelloController {
 
 		ResponseEntity<CarrelloDTO> response = new ResponseEntity<CarrelloDTO>(HttpStatus.BAD_REQUEST);
 		CarrelloDTO carrelloDto = carrelloServ.aggiungiArticolo(articoloCarrDto);
+		
 		if (carrelloDto != null) {
 			response = new ResponseEntity<CarrelloDTO>(carrelloDto, HttpStatus.ACCEPTED);
 		}

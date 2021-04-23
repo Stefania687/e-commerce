@@ -10,7 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -29,9 +28,9 @@ public class Ordine {
 	@Column(name = "data_ordine")
 	private LocalDate dataOrdine;
 
-	@ManyToOne
-	@JoinColumn(name = "id_utente")
-	private Utente utente;
+	// @ManyToOne
+	@Column(name = "id_utente")
+	private Long idUtente;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_ordine")
@@ -61,14 +60,12 @@ public class Ordine {
 		this.dataOrdine = dataOrdine;
 	}
 
-	
-
-	public Utente getUtente() {
-		return utente;
+	public Long getIdUtente() {
+		return idUtente;
 	}
 
-	public void setUtente(Utente utente) {
-		this.utente = utente;
+	public void setIdUtente(Long idUtente) {
+		this.idUtente = idUtente;
 	}
 
 	public List<RigaOrdine> getRigaOrdine() {

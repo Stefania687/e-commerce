@@ -12,20 +12,14 @@ import it.objectmethod.ecommerce.entity.Carrello;
 import it.objectmethod.ecommerce.entity.CarrelloDettaglio;
 import it.objectmethod.ecommerce.entity.Ordine;
 import it.objectmethod.ecommerce.entity.RigaOrdine;
-import it.objectmethod.ecommerce.entity.Utente;
 import it.objectmethod.ecommerce.repository.ArticoloRepository;
 import it.objectmethod.ecommerce.repository.CarrelloRepository;
 import it.objectmethod.ecommerce.repository.OrdineRepository;
 import it.objectmethod.ecommerce.services.dto.OrdineDTO;
-import it.objectmethod.ecommerce.services.dto.UtenteDTO;
 import it.objectmethod.ecommerce.services.mapper.OrdineMapper;
-import it.objectmethod.ecommerce.services.mapper.UtenteMapper;
 
 @Service
 public class OrdineService {
-
-	@Autowired
-	private UtenteMapper utenteMap;
 
 	@Autowired
 	private CarrelloRepository carrelloRepo;
@@ -39,13 +33,11 @@ public class OrdineService {
 	@Autowired
 	private OrdineMapper ordineMap;
 
-	public OrdineDTO aggiungiOrdine(UtenteDTO utenteDto) {
+	public OrdineDTO aggiungiOrdine(Long idUtente) {
 
 		OrdineDTO ordineDto = null;
 
-		Utente utente = utenteMap.toEntity(utenteDto);
-		Carrello carrello = carrelloRepo.findByIdUtente(utente.getIdUtente());
-		System.out.println(utenteDto.getNome());
+		Carrello carrello = carrelloRepo.findByIdUtente(idUtente);
 
 		if (carrello != null) {
 			Ordine ordine = new Ordine();
@@ -76,7 +68,7 @@ public class OrdineService {
 			if (!errore) {
 				LocalDate data = LocalDate.now();
 				ordine.setDataOrdine(data);
-				ordine.setUtente(utente);
+				ordine.setIdUtente(idUtente);
 				ordine.setRigaOrdine(righe);
 				ordine.setNumeroOrdine("A000" + carrello.getIdCarrello());
 

@@ -1,25 +1,43 @@
 package it.objectmethod.ecommerce.services.mapper;
 
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import it.objectmethod.ecommerce.entity.Utente;
 import it.objectmethod.ecommerce.services.dto.UtenteDTO;
 
-@Component
-public class UtenteMapper {
+@Mapper(componentModel = "spring")
+public interface UtenteMapper extends EntityMapper<UtenteDTO, Utente> {
 
-	public UtenteDTO toDto(Utente utente) {
-		UtenteDTO dto = new UtenteDTO();
-		dto.setId(utente.getIdUtente());
-		dto.setNome(utente.getNomeUtente());
-		return dto;
-	}
-
-	public Utente toEntity(UtenteDTO utenteDto) {
-		Utente ut = new Utente();
-		ut.setIdUtente(utenteDto.getId());
-		ut.setNomeUtente(utenteDto.getNome());
-		return ut;
-	}
-
+	@Override
+	@Mapping(source = "idUtente", target = "id")
+	@Mapping(source = "nomeUtente", target = "nome")
+	UtenteDTO toDto(Utente entity);
+	
+	@Override
+	@Mapping(target = "password", ignore = true)
+	Utente toEntity(UtenteDTO dto);
+	
 }
+
+
+//@Component
+//public class UtenteMapper {
+//
+//	public UtenteDTO toDto(Utente utente) {
+//		UtenteDTO dto = new UtenteDTO();
+//		dto.setId(utente.getIdUtente());
+//		dto.setNome(utente.getNomeUtente());
+//		return dto;
+//	}
+//
+//	public Utente toEntity(UtenteDTO utenteDto) {
+//		Utente ut = new Utente();
+//		ut.setIdUtente(utenteDto.getId());
+//		ut.setNomeUtente(utenteDto.getNome());
+//		return ut;
+//	}
+//
+//}
+
+
