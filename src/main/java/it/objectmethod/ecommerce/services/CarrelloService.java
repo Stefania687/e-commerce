@@ -16,10 +16,9 @@ import it.objectmethod.ecommerce.repository.CarrelloRepository;
 import it.objectmethod.ecommerce.repository.UtenteRepository;
 import it.objectmethod.ecommerce.services.dto.ArticoloCarrelloDTO;
 import it.objectmethod.ecommerce.services.dto.CarrelloDTO;
+import it.objectmethod.ecommerce.services.dto.UtenteDTO;
 import it.objectmethod.ecommerce.services.mapper.ArticoloCarrelloMapper;
 import it.objectmethod.ecommerce.services.mapper.CarrelloMapper;
-
-
 
 @Service
 public class CarrelloService {
@@ -30,38 +29,38 @@ public class CarrelloService {
 	private ArticoloRepository articoloRepo;
 
 	@Autowired
-	private UtenteRepository utenteRepo;
-
-	@Autowired
 	private CarrelloMapper carrelloMap;
 
 	@Autowired
 	private ArticoloCarrelloMapper artCarrMap;
 
-	public CarrelloDTO aggiungiArticolo(ArticoloCarrelloDTO articoloCarrDto) {
+	@Autowired
+	private UtenteRepository utenteRepo;
+
+	public CarrelloDTO aggiungiArticolo(ArticoloCarrelloDTO artCarrDto, UtenteDTO utenteDto) {
 
 		CarrelloDTO carrelloDto = null;
-		Articolo articolo = artCarrMap.toEntity(articoloCarrDto);
+		Integer quantita = artCarrDto.getQuantita();
+		Articolo articolo = artCarrMap.toEntity(artCarrDto);
 		Optional<Articolo> optArticolo = articoloRepo.findById(articolo.getIdArticolo());
-		int quantita = articoloCarrDto.getQuantita();
-		
+
 		if (optArticolo.isPresent()) {
 			articolo = optArticolo.get();
-			Optional<Utente> optUtente = utenteRepo.findById(articoloCarrDto.getIdUtente());
-			Utente utente = optUtente.get();
+			Utente utente = utenteRepo.findById(utenteDto.getId()).get();
 			Carrello carrello = carrelloRepo.findByIdUtente(utente.getIdUtente());
-			
 			if (carrello == null) {
 				carrello = new Carrello();
+				utente = utenteRepo.findById(utente.getIdUtente()).get();
+				System.out.println(utente.getNomeUtente() + "sono nel carrello = null");
 				carrello.setUtente(utente);
 				carrello = carrelloRepo.save(carrello);
 			}
 			List<CarrelloDettaglio> dettagli = carrello.getCarrelloDettaglio();
-			
+
 			if (carrello.getCarrelloDettaglio() == null) {
 				dettagli = new ArrayList<CarrelloDettaglio>();
 			}
-			
+
 			boolean trovato = false;
 			for (CarrelloDettaglio det : dettagli) {
 				if (articolo.getIdArticolo().equals(det.getArticolo().getIdArticolo())) {

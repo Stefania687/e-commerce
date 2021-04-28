@@ -6,7 +6,6 @@ public class OrdineDTO {
 
 	private Long id;
 	private Long idUtente;
-	// private String nomeUtente;
 	private LocalDate dataOrdine;
 
 	public Long getId() {
