@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,17 +37,17 @@ public class OrdineService {
 
 	@Autowired
 	private OrdineMapper ordineMap;
-	
+
 	@Autowired
 	private UtenteRepository utenteRepo;
 
+	private static final Logger logger = LogManager.getLogger(OrdineService.class);
+
 	public OrdineDTO aggiungiOrdine(UtenteDTO utenteDto) {
-		System.out.println(utenteDto.getNome() + "sono un nome utente DTO");
+		logger.info("Richiesta servizio salvataggio ordine per l'utente [" + utenteDto.getNome() + "]");
 		OrdineDTO ordineDto = null;
 		Utente utente = utenteRepo.findById(utenteDto.getId()).get();
-		System.out.println(utente.getNomeUtente() + "sono un nome utente");
 		Carrello carrello = carrelloRepo.findByIdUtente(utente.getIdUtente());
-		System.out.println(carrello.getUtente().getNomeUtente() + "sono l'utente nel carrello");
 		if (carrello != null) {
 			Ordine ordine = new Ordine();
 			List<RigaOrdine> righe = new ArrayList<RigaOrdine>();
@@ -82,6 +84,7 @@ public class OrdineService {
 				ordine = ordineRepo.save(ordine);
 				ordineDto = ordineMap.toDto(ordine);
 				carrelloRepo.deleteById(carrello.getIdCarrello());
+				logger.info("Salvataggio ordine con id [" + ordine.getIdOrdine() + "]");
 			}
 
 		}

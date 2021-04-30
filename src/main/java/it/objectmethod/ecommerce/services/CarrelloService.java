@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +39,12 @@ public class CarrelloService {
 	@Autowired
 	private UtenteRepository utenteRepo;
 
+	private static final Logger logger = LogManager.getLogger(CarrelloService.class);
+
 	public CarrelloDTO aggiungiArticolo(ArticoloCarrelloDTO artCarrDto, UtenteDTO utenteDto) {
+
+		logger.info("Richiesta di aggiunta articolo al carrello effettuata per l'utente [" + utenteDto.getNome()
+				+ "] per l'articolo [" + artCarrDto.getIdArticolo() + "]");
 
 		CarrelloDTO carrelloDto = null;
 		Integer quantita = artCarrDto.getQuantita();
@@ -51,9 +58,9 @@ public class CarrelloService {
 			if (carrello == null) {
 				carrello = new Carrello();
 				utente = utenteRepo.findById(utente.getIdUtente()).get();
-				System.out.println(utente.getNomeUtente() + "sono nel carrello = null");
 				carrello.setUtente(utente);
 				carrello = carrelloRepo.save(carrello);
+				logger.info("Creato nuovo carrello con id utente [" + carrello.getUtente().getIdUtente() + "]");
 			}
 			List<CarrelloDettaglio> dettagli = carrello.getCarrelloDettaglio();
 
@@ -84,7 +91,7 @@ public class CarrelloService {
 			carrello.setCarrelloDettaglio(dettagli);
 			carrello = carrelloRepo.save(carrello);
 			carrelloDto = carrelloMap.toDto(carrello);
-
+			logger.info("Articolo salvato nel carrello con id [" + carrello.getIdCarrello() + "]");
 		}
 
 		return carrelloDto;

@@ -2,6 +2,8 @@ package it.objectmethod.ecommerce.services;
 
 import java.util.Calendar;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.auth0.jwt.JWT;
@@ -14,6 +16,8 @@ import it.objectmethod.ecommerce.services.dto.UtenteDTO;
 
 @Component
 public class JWTService {
+
+	private static final Logger logger = LogManager.getLogger(JWTService.class);
 
 	private static final String MY_SECRET_JWT_KEY = "my-secret-jwt-key";
 
@@ -31,7 +35,7 @@ public class JWTService {
 		Algorithm alg = Algorithm.HMAC256(MY_SECRET_JWT_KEY);
 		String token = JWT.create().withClaim("id-utente", utenteDto.getId())
 				.withClaim("nome-utente", utenteDto.getNome()).withExpiresAt(cal.getTime()).sign(alg);
-
+		logger.info("Il token creato e:" + token);
 		return token;
 	}
 
@@ -45,10 +49,11 @@ public class JWTService {
 			Long idUtente = decoded.getClaim("id-utente").asLong();
 			String nomeUtente = decoded.getClaim("nome-utente").asString();
 
-			System.out.println("Utente verificato! " + idUtente + " - " + nomeUtente);
+			logger.info("Utente verificato! " + idUtente + " - " + nomeUtente);
 			valid = true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.error("IL TOKEN NON E VALIDO" + e);
 		}
 
 		return valid;
@@ -68,8 +73,10 @@ public class JWTService {
 			utente = new UtenteDTO();
 			utente.setId(idUtente);
 			utente.setNome(nomeUtente);
+			logger.info("utente con id [" + utente.getId() + " verificato nel token [" + jwtToken + "]");
 		} catch (JWTVerificationException e) {
 			e.printStackTrace();
+			logger.error("IL TOKEN NON E VALIDO" + e);
 		}
 		return utente;
 

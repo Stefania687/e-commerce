@@ -1,5 +1,7 @@
 package it.objectmethod.ecommerce.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,8 @@ public class CarrelloController {
 	
 	@Autowired
 	private JWTService jwtServ;
+	
+	private static final Logger logger = LogManager.getLogger(CarrelloController.class);
 
 	@GetMapping("/aggiungi-articolo")
 	public ResponseEntity<CarrelloDTO> aggiungiArticolo(@RequestBody ArticoloCarrelloDTO artCarrDto,
@@ -34,6 +38,7 @@ public class CarrelloController {
 
 		if (carrelloDto != null) {
 			response = new ResponseEntity<CarrelloDTO>(carrelloDto, HttpStatus.ACCEPTED);
+			logger.info("Carrello creato per l'utente [" + utenteDto.getNome() + "]");
 		}
 
 		return response;

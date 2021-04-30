@@ -1,5 +1,7 @@
 package it.objectmethod.ecommerce.services;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +19,11 @@ public class UtenteService {
 	@Autowired
 	private UtenteMapper utenteMap;
 
+	private static final Logger logger = LogManager.getLogger(UtenteService.class);
+
 	public UtenteDTO findByNomeUtenteAndPassword(String nomeUtente, String password) {
+
+		logger.info("Richieta di login per l'utente [" + nomeUtente + "]");
 
 		Utente utente = utenteRepo.findByNomeUtenteAndPassword(nomeUtente, password);
 		UtenteDTO utenteDto = new UtenteDTO();
