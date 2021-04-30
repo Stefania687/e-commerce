@@ -69,7 +69,9 @@ public class OrdineService {
 
 				} else {
 					errore = true;
+					logger.error("Ordine non disponibile");
 					break;
+
 				}
 
 			}

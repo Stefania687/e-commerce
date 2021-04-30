@@ -29,7 +29,7 @@ public class ArticoloService {
 
 		List<Articolo> articoli = articoloRepo.findByNameOrCode(nomeArticolo, codiceArticolo);
 		List<ArticoloDTO> articoliDto = articoloMap.toDto(articoli);
-
+		logger.info("Articoli trovati : [" + articoli.size() + "]");
 		return articoliDto;
 	}
 

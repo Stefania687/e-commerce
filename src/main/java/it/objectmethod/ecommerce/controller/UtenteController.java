@@ -20,10 +20,10 @@ public class UtenteController {
 
 	@Autowired
 	private UtenteService utenteServ;
-	
+
 	@Autowired
 	private JWTService jwtServ;
-	
+
 	private static final Logger logger = LogManager.getLogger(UtenteController.class);
 
 	@PostMapping("/login")
@@ -34,8 +34,8 @@ public class UtenteController {
 
 		if (utenteDto != null) {
 			String token = jwtServ.createJWTToken(utenteDto);
-			logger.info("Creato token per l'utente con id [" + utenteDto.getId() + "] e nome ["
-					+ utenteDto.getNome() + "] e il token è [" + token + "]");
+			logger.info("Creato token per l'utente con id [" + utenteDto.getId() + "] e nome [" + utenteDto.getNome()
+					+ "] e il token è [" + token + "]");
 			return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

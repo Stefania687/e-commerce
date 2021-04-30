@@ -12,12 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import it.objectmethod.ecommerce.services.JWTService;
 
 @Component
+@Order(2)
 public class AuthenticationFilter implements Filter {
 
 	@Autowired

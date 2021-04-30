@@ -13,13 +13,12 @@ public interface UtenteMapper extends EntityMapper<UtenteDTO, Utente> {
 	@Mapping(source = "idUtente", target = "id")
 	@Mapping(source = "nomeUtente", target = "nome")
 	UtenteDTO toDto(Utente entity);
-	
-	@Override
-	@Mapping(target = "password", ignore = true)
-	Utente toEntity(UtenteDTO dto);
-	
-}
 
+	@Override
+	@Mapping(target = "password", ignore = true) // provo se funziona senza ignore true
+	Utente toEntity(UtenteDTO dto);
+
+}
 
 //@Component
 //public class UtenteMapper {
@@ -39,5 +38,3 @@ public interface UtenteMapper extends EntityMapper<UtenteDTO, Utente> {
 //	}
 //
 //}
-
-

@@ -4,36 +4,30 @@ import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import it.objectmethod.ecommerce.entity.Carrello;
 import it.objectmethod.ecommerce.services.dto.CarrelloDTO;
 
-
 @Mapper(componentModel = "spring")
 public interface CarrelloMapper extends EntityMapper<CarrelloDTO, Carrello> {
 
-	@Autowired
+	@Override
 	@Mapping(source = "utente.idUtente", target = "idUtente")
 	@Mapping(source = "utente.nomeUtente", target = "nomeUtente")
 	@Mapping(source = "idCarrello", target = "id")
 	CarrelloDTO toDto(Carrello entity);
-	
-	@Autowired
+
+	@Override
 	@Mapping(target = "carrelloDettaglio", ignore = true)
 	Carrello toEntity(CarrelloDTO dto);
-	
-	@Autowired
+
+	@Override
 	List<CarrelloDTO> toDto(List<Carrello> entity);
-	
-	@Autowired
+
+	@Override
 	List<Carrello> toEntity(List<CarrelloDTO> dto);
-	
-	
-	
+
 }
-
-
 
 //@Component
 //public class CarrelloMapper {

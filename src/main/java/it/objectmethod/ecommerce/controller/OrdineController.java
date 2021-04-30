@@ -38,7 +38,7 @@ public class OrdineController {
 		ResponseEntity<OrdineDTO> response = new ResponseEntity<OrdineDTO>(HttpStatus.BAD_REQUEST);
 
 		if (ordineDto != null) {
-			logger.info("ordine salvato");
+			logger.info("ordine salvato per id [" + ordineDto.getId() + "]");
 			response = new ResponseEntity<OrdineDTO>(ordineDto, HttpStatus.ACCEPTED);
 		}
 
