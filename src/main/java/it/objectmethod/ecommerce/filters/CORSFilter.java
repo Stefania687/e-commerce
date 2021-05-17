@@ -27,7 +27,7 @@ public class CORSFilter implements Filter {
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
 		response.setHeader("Access-Control-Allow-Headers",
-				"x-requested-with, Content-Type, Pragma, Expires, Cache-Control, auth-token");
+				"x-requested-with, Content-Type, Pragma, Expires, Cache-Control");
 		response.setHeader("Access-Control-Max-Age", "0");
 		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 		response.setHeader("Pragma", "no-cache");

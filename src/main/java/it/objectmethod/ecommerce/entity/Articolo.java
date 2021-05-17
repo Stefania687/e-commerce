@@ -27,6 +27,17 @@ public class Articolo {
 	@Column(name = "prezzo_unitario")
 	private Integer prezzo;
 
+	@Column(name = "image")
+	private String image;
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 	public Long getIdArticolo() {
 		return idArticolo;
 	}

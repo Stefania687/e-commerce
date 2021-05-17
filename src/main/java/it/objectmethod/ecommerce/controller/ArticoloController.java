@@ -22,11 +22,32 @@ public class ArticoloController {
 	private static final Logger logger = LogManager.getLogger(ArticoloController.class);
 
 	@GetMapping("/cerca")
+	public ArticoloDTO findByNomeOCodiceArticolo(@RequestParam("nome-articolo") String nomeArticolo) {
+		logger.info("Richiesta servizio ricerca articolo per nome [" + nomeArticolo + "]");
+		ArticoloDTO articoloDto = articoloServ.findByName(nomeArticolo);
+		return articoloDto;
+	}
+
+	@GetMapping("/cerca-meglio")
 	public List<ArticoloDTO> findByNomeOCodiceArticolo(@RequestParam("nome-articolo") String nomeArticolo,
 			@RequestParam("codice-articolo") String codiceArticolo) {
-		logger.info("Richiesta servizio ricerca articolo per nome [" + nomeArticolo + "] o codice: [" + codiceArticolo + "]");
+		logger.info("Richiesta servizio ricerca articolo per nome [" + nomeArticolo + "] o codice: [" + codiceArticolo
+				+ "]");
 		List<ArticoloDTO> articoloDto = articoloServ.findByNameOrCode(nomeArticolo, codiceArticolo);
 		return articoloDto;
+	}
+
+	@GetMapping("/cerca-tutto")
+	public List<ArticoloDTO> findAll() {
+		List<ArticoloDTO> articoloDto = articoloServ.findAll();
+		return articoloDto;
+	}
+
+	@GetMapping("/conta")
+	public Integer contaArticoli() {
+		int number = articoloServ.countArticles();
+		return number;
+
 	}
 
 }

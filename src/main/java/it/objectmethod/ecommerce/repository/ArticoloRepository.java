@@ -14,4 +14,10 @@ public interface ArticoloRepository extends JpaRepository<Articolo, Long> {
 	@Query(value = "select a from Articolo a where ('' = ?1 or a.nomeArticolo = ?1) and ('' = ?2 or a.codiceArticolo = ?2)")
 	public List<Articolo> findByNameOrCode(String nomeArticolo, String codiceArticolo);
 
+	@Query(value = "select a from Articolo a where a.nomeArticolo = ?1")
+	public Articolo findByName(String nomeArticolo);
+
+	@Query(value = "SELECT COUNT(idArticolo) FROM Articolo a")
+	public Integer findArticlesNumber();
+
 }

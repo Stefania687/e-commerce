@@ -7,6 +7,15 @@ public class ArticoloDTO {
 	private String nomeArticolo;
 	private Integer disponibilita;
 	private Integer prezzo;
+	private String image;
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
 
 	public String getNomeArticolo() {
 		return nomeArticolo;

@@ -33,4 +33,22 @@ public class ArticoloService {
 		return articoliDto;
 	}
 
+	public ArticoloDTO findByName(String nomeArticolo) {
+		Articolo articolo = articoloRepo.findByName(nomeArticolo);
+		ArticoloDTO articoloDto = articoloMap.toDto(articolo);
+		
+		return articoloDto;
+	}
+	
+	public List<ArticoloDTO> findAll(){
+		List<Articolo> articoli = articoloRepo.findAll();
+		List<ArticoloDTO> articoliDto = articoloMap.toDto(articoli);
+		return articoliDto;
+	}
+	
+	public Integer countArticles() {
+		int number = articoloRepo.findArticlesNumber();
+		return number;
+	}
+
 }
